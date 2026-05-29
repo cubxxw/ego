@@ -54,20 +54,20 @@ func ContextValue(ctx context.Context, key string) string {
 	return cast.ToString(ctx.Value(key))
 }
 
-// ToSliceStringMap casts an empty interface to []map[string]interface{} ignoring error
-func ToSliceStringMap(i interface{}) []map[string]interface{} {
-	var s = make([]map[string]interface{}, 0)
+// ToSliceStringMap casts an empty interface to []map[string]any ignoring error
+func ToSliceStringMap(i any) []map[string]any {
+	var s = make([]map[string]any, 0)
 	switch v := i.(type) {
-	case []interface{}:
+	case []any:
 		for _, u := range v {
 			s = append(s, cast.ToStringMap(u))
 		}
 		return s
-	case []map[string]interface{}:
+	case []map[string]any:
 		s = append(s, v...)
 		return s
 	default:
-		log.Printf("unable to Cast %#v of type %v to []map[string]interface{}", i, reflect.TypeOf(i))
+		log.Printf("unable to Cast %#v of type %v to []map[string]any", i, reflect.TypeOf(i))
 		return s
 	}
 }

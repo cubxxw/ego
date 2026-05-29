@@ -36,8 +36,8 @@ import (
 )
 
 // metricUnaryClientInterceptor returns grpc unary request metrics collector interceptor
-func (c *Container) metricUnaryClientInterceptor() func(ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
-	return func(ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
+func (c *Container) metricUnaryClientInterceptor() func(ctx context.Context, method string, req, reply any, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
+	return func(ctx context.Context, method string, req, reply any, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
 		beg := time.Now()
 		emetric.ClientStartedCounter.Inc(emetric.TypeGRPCUnary, c.name, method, cc.Target())
 		err := invoker(ctx, method, req, reply, cc, opts...)
@@ -53,7 +53,7 @@ func (c *Container) metricUnaryClientInterceptor() func(ctx context.Context, met
 
 // debugUnaryClientInterceptor returns grpc unary request request and response details interceptor
 func (c *Container) debugUnaryClientInterceptor() grpc.UnaryClientInterceptor {
-	return func(ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
+	return func(ctx context.Context, method string, req, reply any, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
 		var p peer.Peer
 		beg := time.Now()
 		err := invoker(ctx, method, req, reply, cc, append(opts, grpc.Peer(&p))...)
@@ -74,7 +74,7 @@ func (c *Container) traceUnaryClientInterceptor() grpc.UnaryClientInterceptor {
 		egrpcinteceptor.RPCSystemGRPC,
 		egrpcinteceptor.GRPCKindUnary,
 	}
-	return func(ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) (err error) {
+	return func(ctx context.Context, method string, req, reply any, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) (err error) {
 		md, ok := metadata.FromOutgoingContext(ctx)
 		if !ok {
 			md = metadata.New(nil)
@@ -104,7 +104,7 @@ func (c *Container) traceUnaryClientInterceptor() grpc.UnaryClientInterceptor {
 
 // defaultUnaryClientInterceptor returns interceptor inject app name
 func (c *Container) defaultUnaryClientInterceptor() grpc.UnaryClientInterceptor {
-	return func(ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
+	return func(ctx context.Context, method string, req, reply any, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
 		// https://github.com/grpc/grpc-go/blob/master/Documentation/grpc-metadata.md
 		ctx = metadata.AppendToOutgoingContext(ctx, "app", eapp.Name())
 		// if c.config.EnableCPUUsage {
@@ -142,7 +142,7 @@ type clientStream struct {
 	sentMessageID     int
 }
 
-func (w *clientStream) RecvMsg(m interface{}) error {
+func (w *clientStream) RecvMsg(m any) error {
 	err := w.ClientStream.RecvMsg(m)
 
 	if err == nil && !w.desc.ServerStreams {
@@ -159,7 +159,7 @@ func (w *clientStream) RecvMsg(m interface{}) error {
 	return err
 }
 
-func (w *clientStream) SendMsg(m interface{}) error {
+func (w *clientStream) SendMsg(m any) error {
 	err := w.ClientStream.SendMsg(m)
 
 	w.sentMessageID++
@@ -294,7 +294,7 @@ func (c *Container) defaultStreamClientInterceptor() grpc.StreamClientIntercepto
 
 // timeoutUnaryClientInterceptor settings timeout
 func (c *Container) timeoutUnaryClientInterceptor() grpc.UnaryClientInterceptor {
-	return func(ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
+	return func(ctx context.Context, method string, req, reply any, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
 		// 若无自定义超时设置，默认设置超时
 		_, ok := ctx.Deadline()
 		if !ok {
@@ -308,7 +308,7 @@ func (c *Container) timeoutUnaryClientInterceptor() grpc.UnaryClientInterceptor 
 
 // loggerUnaryClientInterceptor returns log interceptor for logging
 func (c *Container) loggerUnaryClientInterceptor() grpc.UnaryClientInterceptor {
-	return func(ctx context.Context, method string, req, res interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) (err error) {
+	return func(ctx context.Context, method string, req, res any, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) (err error) {
 		var beg = time.Now()
 		var fields []elog.Field
 		var event = "normal"
@@ -397,7 +397,7 @@ func (c *Container) loggerUnaryClientInterceptor() grpc.UnaryClientInterceptor {
 
 // customHeader 自定义header头
 func customHeader(egoLogExtraKeys []string) grpc.UnaryClientInterceptor {
-	return func(ctx context.Context, method string, req, res interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
+	return func(ctx context.Context, method string, req, res any, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
 		for _, key := range egoLogExtraKeys {
 			if value := tools.GrpcHeaderValue(ctx, key); value != "" {
 				if ctx.Value(key) != nil {

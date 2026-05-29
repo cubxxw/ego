@@ -46,14 +46,14 @@ func WithUnaryInterceptor(interceptors ...grpc.UnaryServerInterceptor) Option {
 }
 
 // WithUnaryServerResourceExtractor sets the resource extractor of unary server request.
-func WithUnaryServerResourceExtractor(fn func(context.Context, interface{}, *grpc.UnaryServerInfo) string) Option {
+func WithUnaryServerResourceExtractor(fn func(context.Context, any, *grpc.UnaryServerInfo) string) Option {
 	return func(c *Container) {
 		c.config.unaryServerResourceExtract = fn
 	}
 }
 
 // WithUnaryServerBlockFallback sets the block fallback handler of unary server request.
-func WithUnaryServerBlockFallback(fn func(context.Context, interface{}, *grpc.UnaryServerInfo, *base.BlockError) (interface{}, error)) Option {
+func WithUnaryServerBlockFallback(fn func(context.Context, any, *grpc.UnaryServerInfo, *base.BlockError) (any, error)) Option {
 	return func(c *Container) {
 		c.config.unaryServerBlockFallback = fn
 	}

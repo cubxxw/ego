@@ -56,7 +56,7 @@ func newGzipHandler(level int, options ...GzipOption) *gzipHandler {
 	handler := &gzipHandler{
 		GzipOptions: DefaultOptions,
 		gzPool: sync.Pool{
-			New: func() interface{} {
+			New: func() any {
 				gz, err := gzip.NewWriterLevel(io.Discard, level)
 				if err != nil {
 					panic(err)

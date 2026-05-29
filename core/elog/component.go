@@ -170,7 +170,7 @@ func (logger *Component) Debug(msg string, fields ...Field) {
 
 // Debugw ...
 // Deprecated: Will be removed in future versions, use *Component.Debug instead.
-func (logger *Component) Debugw(msg string, keysAndValues ...interface{}) {
+func (logger *Component) Debugw(msg string, keysAndValues ...any) {
 	if logger.IsDebugMode() {
 		msg = normalizeMessage(msg)
 	}
@@ -179,7 +179,7 @@ func (logger *Component) Debugw(msg string, keysAndValues ...interface{}) {
 
 // Debugf ...
 // Deprecated: Will be removed in future versions, use *Component.Debug instead.
-func (logger *Component) Debugf(template string, args ...interface{}) {
+func (logger *Component) Debugf(template string, args ...any) {
 	logger.sugar.Debugf(template, args...)
 }
 
@@ -193,7 +193,7 @@ func (logger *Component) Info(msg string, fields ...Field) {
 
 // Infow ...
 // Deprecated: Will be removed in future versions, use *Component.Info instead.
-func (logger *Component) Infow(msg string, keysAndValues ...interface{}) {
+func (logger *Component) Infow(msg string, keysAndValues ...any) {
 	if logger.IsDebugMode() {
 		msg = normalizeMessage(msg)
 	}
@@ -202,7 +202,7 @@ func (logger *Component) Infow(msg string, keysAndValues ...interface{}) {
 
 // Infof ...
 // Deprecated: Will be removed in future versions, use *Component.Info instead.
-func (logger *Component) Infof(template string, args ...interface{}) {
+func (logger *Component) Infof(template string, args ...any) {
 	logger.sugar.Infof(template, args...)
 }
 
@@ -216,7 +216,7 @@ func (logger *Component) Warn(msg string, fields ...Field) {
 
 // Warnw ...
 // Deprecated: Will be removed in future versions, use *Component.Warn instead.
-func (logger *Component) Warnw(msg string, keysAndValues ...interface{}) {
+func (logger *Component) Warnw(msg string, keysAndValues ...any) {
 	if logger.IsDebugMode() {
 		msg = normalizeMessage(msg)
 	}
@@ -225,7 +225,7 @@ func (logger *Component) Warnw(msg string, keysAndValues ...interface{}) {
 
 // Warnf ...
 // Deprecated: Will be removed in future versions, use *Component.Warn instead.
-func (logger *Component) Warnf(template string, args ...interface{}) {
+func (logger *Component) Warnf(template string, args ...any) {
 	logger.sugar.Warnf(template, args...)
 }
 
@@ -239,7 +239,7 @@ func (logger *Component) Error(msg string, fields ...Field) {
 
 // Errorw ...
 // Deprecated: Will be removed in future versions, use *Component.Error instead.
-func (logger *Component) Errorw(msg string, keysAndValues ...interface{}) {
+func (logger *Component) Errorw(msg string, keysAndValues ...any) {
 	if logger.IsDebugMode() {
 		msg = normalizeMessage(msg)
 	}
@@ -248,7 +248,7 @@ func (logger *Component) Errorw(msg string, keysAndValues ...interface{}) {
 
 // Errorf ...
 // Deprecated: Will be removed in future versions, use *Component.Error instead.
-func (logger *Component) Errorf(template string, args ...interface{}) {
+func (logger *Component) Errorf(template string, args ...any) {
 	logger.sugar.Errorf(template, args...)
 }
 
@@ -263,7 +263,7 @@ func (logger *Component) Panic(msg string, fields ...Field) {
 
 // Panicw ...
 // Deprecated: Will be removed in future versions, use *Component.Panic instead.
-func (logger *Component) Panicw(msg string, keysAndValues ...interface{}) {
+func (logger *Component) Panicw(msg string, keysAndValues ...any) {
 	if logger.IsDebugMode() {
 		msg = normalizeMessage(msg)
 	}
@@ -272,7 +272,7 @@ func (logger *Component) Panicw(msg string, keysAndValues ...interface{}) {
 
 // Panicf ...
 // Deprecated: Will be removed in future versions, use *Component.Panic instead.
-func (logger *Component) Panicf(template string, args ...interface{}) {
+func (logger *Component) Panicf(template string, args ...any) {
 	logger.sugar.Panicf(template, args...)
 }
 
@@ -287,7 +287,7 @@ func (logger *Component) DPanic(msg string, fields ...Field) {
 
 // DPanicw ...
 // Deprecated: Will be removed in future versions, use *Component.DPanic instead.
-func (logger *Component) DPanicw(msg string, keysAndValues ...interface{}) {
+func (logger *Component) DPanicw(msg string, keysAndValues ...any) {
 	if logger.IsDebugMode() {
 		msg = normalizeMessage(msg)
 	}
@@ -296,7 +296,7 @@ func (logger *Component) DPanicw(msg string, keysAndValues ...interface{}) {
 
 // DPanicf ...
 // Deprecated: Will be removed in future versions, use *Component.DPanic instead.
-func (logger *Component) DPanicf(template string, args ...interface{}) {
+func (logger *Component) DPanicf(template string, args ...any) {
 	logger.sugar.DPanicf(template, args...)
 }
 
@@ -312,7 +312,7 @@ func (logger *Component) Fatal(msg string, fields ...Field) {
 
 // Fatalw ...
 // Deprecated: Will be removed in future versions, use *Component.Fatal instead.
-func (logger *Component) Fatalw(msg string, keysAndValues ...interface{}) {
+func (logger *Component) Fatalw(msg string, keysAndValues ...any) {
 	if logger.IsDebugMode() {
 		msg = normalizeMessage(msg)
 	}
@@ -321,7 +321,7 @@ func (logger *Component) Fatalw(msg string, keysAndValues ...interface{}) {
 
 // Fatalf ...
 // Deprecated: Will be removed in future versions, use *Component.Fatal instead.
-func (logger *Component) Fatalf(template string, args ...interface{}) {
+func (logger *Component) Fatalf(template string, args ...any) {
 	logger.sugar.Fatalf(template, args...)
 }
 

@@ -58,7 +58,7 @@ func traceUnaryServerInterceptor() grpc.UnaryServerInterceptor {
 		egrpcinteceptor.RPCSystemGRPC,
 		egrpcinteceptor.GRPCKindUnary,
 	}
-	return func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (reply interface{}, err error) {
+	return func(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (reply any, err error) {
 		md, ok := metadata.FromIncomingContext(ctx)
 		if !ok {
 			md = metadata.New(nil)
@@ -96,7 +96,7 @@ type contextedServerStream struct {
 	sentMessageID     int
 }
 
-func (css *contextedServerStream) RecvMsg(m interface{}) error {
+func (css *contextedServerStream) RecvMsg(m any) error {
 	err := css.ServerStream.RecvMsg(m)
 
 	if err == nil {
@@ -107,7 +107,7 @@ func (css *contextedServerStream) RecvMsg(m interface{}) error {
 	return err
 }
 
-func (css *contextedServerStream) SendMsg(m interface{}) error {
+func (css *contextedServerStream) SendMsg(m any) error {
 	err := css.ServerStream.SendMsg(m)
 
 	css.sentMessageID++
@@ -127,7 +127,7 @@ func traceStreamServerInterceptor() grpc.StreamServerInterceptor {
 		semconv.RPCSystemKey.String("grpc"),
 		egrpcinteceptor.GRPCKindStream,
 	}
-	return func(srv interface{}, ss grpc.ServerStream, info *grpc.StreamServerInfo, handler grpc.StreamHandler) error {
+	return func(srv any, ss grpc.ServerStream, info *grpc.StreamServerInfo, handler grpc.StreamHandler) error {
 		md, ok := metadata.FromIncomingContext(ss.Context())
 		if !ok {
 			md = metadata.New(nil)
@@ -161,7 +161,7 @@ func traceStreamServerInterceptor() grpc.StreamServerInterceptor {
 }
 
 func (c *Container) defaultStreamServerInterceptor() grpc.StreamServerInterceptor {
-	return func(srv interface{}, stream grpc.ServerStream, info *grpc.StreamServerInfo, handler grpc.StreamHandler) (err error) {
+	return func(srv any, stream grpc.ServerStream, info *grpc.StreamServerInfo, handler grpc.StreamHandler) (err error) {
 		var beg = time.Now()
 		var fields []elog.Field
 		var event = "normal"
@@ -264,7 +264,7 @@ func CtxStoreSet(ctx context.Context, k string, v any) {
 }
 
 func (c *Container) defaultUnaryServerInterceptor() grpc.UnaryServerInterceptor {
-	return func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (res interface{}, err error) {
+	return func(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (res any, err error) {
 		ctx = context.WithValue(ctx, ctxStoreStruct{}, &ctxStore{kvs: map[string]any{}})
 		// 默认过滤掉该探活日志
 		if c.config.EnableSkipHealthLog && info.FullMethod == "/grpc.health.v1.Health/Check" {
@@ -463,10 +463,10 @@ func getPeerIpFromContext(ctx context.Context) string {
 func (c *Container) sentinelInterceptor() grpc.UnaryServerInterceptor {
 	return func(
 		ctx context.Context,
-		req interface{},
+		req any,
 		info *grpc.UnaryServerInfo,
 		handler grpc.UnaryHandler,
-	) (interface{}, error) {
+	) (any, error) {
 		// method as resource name by default
 		resourceName := info.FullMethod
 		if c.config.unaryServerResourceExtract != nil {

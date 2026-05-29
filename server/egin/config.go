@@ -112,6 +112,6 @@ func (config *Config) ClientAuthType() tls.ClientAuthType {
 	}
 }
 
-func defaultRecoveryFunc(ctx *gin.Context, _ interface{}) {
+func defaultRecoveryFunc(ctx *gin.Context, _ any) {
 	ctx.AbortWithStatus(http.StatusInternalServerError)
 }

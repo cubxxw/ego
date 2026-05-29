@@ -22,7 +22,7 @@ const PackageName = "core.econf"
 // Configuration ...
 type Configuration struct {
 	mu        sync.RWMutex
-	override  map[string]interface{}
+	override  map[string]any
 	keyDelim  string
 	rawConfig []byte
 	keyMap    *sync.Map
@@ -38,7 +38,7 @@ const (
 // New constructs a new Configuration with provider.
 func New() *Configuration {
 	return &Configuration{
-		override:  make(map[string]interface{}),
+		override:  make(map[string]any),
 		keyDelim:  defaultKeyDelim,
 		keyMap:    &sync.Map{},
 		onChanges: make([]func(*Configuration), 0),
@@ -114,7 +114,7 @@ func (c *Configuration) LoadFromDataSource(ds DataSource, unmarshaller Unmarshal
 // Load ...
 func (c *Configuration) Load(content []byte, unmarshal Unmarshaller) error {
 	c.rawConfig = content
-	configuration := make(map[string]interface{})
+	configuration := make(map[string]any)
 	if err := unmarshal(content, &configuration); err != nil {
 		return err
 	}
@@ -130,11 +130,11 @@ func (c *Configuration) LoadFromReader(reader io.Reader, unmarshaller Unmarshall
 	return c.Load(content, unmarshaller)
 }
 
-func (c *Configuration) apply(conf map[string]interface{}) error {
+func (c *Configuration) apply(conf map[string]any) error {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 
-	var changes = make(map[string]interface{})
+	var changes = make(map[string]any)
 
 	xmap.MergeStringMap(c.override, conf)
 	for k, v := range c.traverse(c.keyDelim) {
@@ -152,7 +152,7 @@ func (c *Configuration) apply(conf map[string]interface{}) error {
 	return nil
 }
 
-func (c *Configuration) notifyChanges(changes map[string]interface{}) {
+func (c *Configuration) notifyChanges(changes map[string]any) {
 	var changedWatchPrefixMap = map[string]struct{}{}
 
 	for watchPrefix := range c.watchers {
@@ -173,7 +173,7 @@ func (c *Configuration) notifyChanges(changes map[string]interface{}) {
 }
 
 // Set ...
-func (c *Configuration) Set(key string, val interface{}) error {
+func (c *Configuration) Set(key string, val any) error {
 	paths := strings.Split(key, c.keyDelim)
 	lastKey := paths[len(paths)-1]
 	m := deepSearch(c.override, paths[:len(paths)-1])
@@ -182,18 +182,18 @@ func (c *Configuration) Set(key string, val interface{}) error {
 	// c.keyMap.Store(key, val)
 }
 
-func deepSearch(m map[string]interface{}, path []string) map[string]interface{} {
+func deepSearch(m map[string]any, path []string) map[string]any {
 	for _, k := range path {
 		m2, ok := m[k]
 		if !ok {
-			m3 := make(map[string]interface{})
+			m3 := make(map[string]any)
 			m[k] = m3
 			m = m3
 			continue
 		}
-		m3, ok := m2.(map[string]interface{})
+		m3, ok := m2.(map[string]any)
 		if !ok {
-			m3 = make(map[string]interface{})
+			m3 = make(map[string]any)
 			m[k] = m3
 		}
 		m = m3
@@ -202,7 +202,7 @@ func deepSearch(m map[string]interface{}, path []string) map[string]interface{} 
 }
 
 // Get returns the value associated with the key
-func (c *Configuration) Get(key string) interface{} {
+func (c *Configuration) Get(key string) any {
 	return c.find(key)
 }
 
@@ -287,22 +287,22 @@ func (c *Configuration) GetStringSlice(key string) []string {
 }
 
 // GetSlice returns the value associated with the key as a slice of strings with default defaultConfiguration.
-func GetSlice(key string) []interface{} {
+func GetSlice(key string) []any {
 	return defaultConfiguration.GetSlice(key)
 }
 
 // GetSlice returns the value associated with the key as a slice of strings.
-func (c *Configuration) GetSlice(key string) []interface{} {
+func (c *Configuration) GetSlice(key string) []any {
 	return cast.ToSlice(c.Get(key))
 }
 
 // GetStringMap returns the value associated with the key as a map of interfaces with default defaultConfiguration.
-func GetStringMap(key string) map[string]interface{} {
+func GetStringMap(key string) map[string]any {
 	return defaultConfiguration.GetStringMap(key)
 }
 
 // GetStringMap returns the value associated with the key as a map of interfaces.
-func (c *Configuration) GetStringMap(key string) map[string]interface{} {
+func (c *Configuration) GetStringMap(key string) map[string]any {
 	return cast.ToStringMap(c.Get(key))
 }
 
@@ -317,7 +317,7 @@ func (c *Configuration) GetStringMapString(key string) map[string]string {
 }
 
 // GetSliceStringMap returns the value associated with the slice of maps.
-func (c *Configuration) GetSliceStringMap(key string) []map[string]interface{} {
+func (c *Configuration) GetSliceStringMap(key string) []map[string]any {
 	return tools.ToSliceStringMap(c.Get(key))
 }
 
@@ -332,12 +332,12 @@ func (c *Configuration) GetStringMapStringSlice(key string) map[string][]string 
 }
 
 // UnmarshalWithExpect unmarshal key, returns expect if failed
-func UnmarshalWithExpect(key string, expect interface{}) interface{} {
+func UnmarshalWithExpect(key string, expect any) any {
 	return defaultConfiguration.UnmarshalWithExpect(key, expect)
 }
 
 // UnmarshalWithExpect unmarshal key, returns expect if failed
-func (c *Configuration) UnmarshalWithExpect(key string, expect interface{}) interface{} {
+func (c *Configuration) UnmarshalWithExpect(key string, expect any) any {
 	err := c.UnmarshalKey(key, expect)
 	if err != nil {
 		return expect
@@ -346,7 +346,7 @@ func (c *Configuration) UnmarshalWithExpect(key string, expect interface{}) inte
 }
 
 // UnmarshalKey takes a single key and unmarshal it into a Struct with default defaultConfiguration.
-func UnmarshalKey(key string, rawVal interface{}, opts ...Option) error {
+func UnmarshalKey(key string, rawVal any, opts ...Option) error {
 	return defaultConfiguration.UnmarshalKey(key, rawVal, opts...)
 }
 
@@ -354,7 +354,7 @@ func UnmarshalKey(key string, rawVal interface{}, opts ...Option) error {
 var ErrInvalidKey = errors.New("invalid key, maybe not exist in config")
 
 // UnmarshalKey takes a single key and unmarshal it into a Struct.
-func (c *Configuration) UnmarshalKey(key string, rawVal interface{}, opts ...Option) error {
+func (c *Configuration) UnmarshalKey(key string, rawVal any, opts ...Option) error {
 	var options = defaultContainer
 	for _, opt := range opts {
 		opt(&options)
@@ -385,7 +385,7 @@ func (c *Configuration) UnmarshalKey(key string, rawVal interface{}, opts ...Opt
 	return decoder.Decode(value)
 }
 
-func (c *Configuration) find(key string) interface{} {
+func (c *Configuration) find(key string) any {
 	dd, ok := c.keyMap.Load(key)
 	if ok {
 		return dd
@@ -400,7 +400,7 @@ func (c *Configuration) find(key string) interface{} {
 	return dd
 }
 
-func lookup(prefix string, target map[string]interface{}, data map[string]interface{}, sep string) {
+func lookup(prefix string, target map[string]any, data map[string]any, sep string) {
 	for k, v := range target {
 		pp := fmt.Sprintf("%s%s%s", prefix, sep, k)
 		if prefix == "" {
@@ -414,8 +414,8 @@ func lookup(prefix string, target map[string]interface{}, data map[string]interf
 	}
 }
 
-func (c *Configuration) traverse(sep string) map[string]interface{} {
-	data := make(map[string]interface{})
+func (c *Configuration) traverse(sep string) map[string]any {
+	data := make(map[string]any)
 	lookup("", c.override, data, sep)
 	return data
 }

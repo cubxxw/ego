@@ -59,10 +59,10 @@ func TestContextValueEmpty(t *testing.T) {
 }
 
 func TestToSliceStringMap(t *testing.T) {
-	out := ToSliceStringMap([]interface{}{
-		map[string]interface{}{"aaa": "AAA"},
+	out := ToSliceStringMap([]any{
+		map[string]any{"aaa": "AAA"},
 	})
-	assert.Equal(t, []map[string]interface{}{{"aaa": "AAA"}}, out)
+	assert.Equal(t, []map[string]any{{"aaa": "AAA"}}, out)
 }
 
 func TestGofmt(t *testing.T) {

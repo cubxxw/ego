@@ -33,7 +33,7 @@ func TestWithServerOption(t *testing.T) {
 }
 
 func TestWithStreamInterceptor(t *testing.T) {
-	intcp := func(srv interface{}, ss grpc.ServerStream, info *grpc.StreamServerInfo, handler grpc.StreamHandler) error {
+	intcp := func(srv any, ss grpc.ServerStream, info *grpc.StreamServerInfo, handler grpc.StreamHandler) error {
 		return nil
 	}
 	opt := WithStreamInterceptor(intcp)
@@ -43,7 +43,7 @@ func TestWithStreamInterceptor(t *testing.T) {
 }
 
 func TestWithUnaryInterceptor(t *testing.T) {
-	intcp := func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
+	intcp := func(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp any, err error) {
 		return nil, nil
 	}
 	opt := WithUnaryInterceptor(intcp)

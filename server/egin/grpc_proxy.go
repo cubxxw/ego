@@ -57,7 +57,7 @@ func protoError(c *gin.Context, code int, e error) ([]byte, error) {
 }
 
 // protoJSON sends a Protobuf JSON response with status code and data.
-func protoJSON(c *gin.Context, code int, i interface{}) ([]byte, error) {
+func protoJSON(c *gin.Context, code int, i any) ([]byte, error) {
 	var acceptEncoding = c.Request.Header.Get(HeaderAcceptEncoding)
 	var ok bool
 	var m proto.Message
@@ -81,7 +81,7 @@ func protoJSON(c *gin.Context, code int, i interface{}) ([]byte, error) {
 }
 
 // GRPCProxy experimental
-func GRPCProxy(h interface{}) gin.HandlerFunc {
+func GRPCProxy(h any) gin.HandlerFunc {
 	t := reflect.TypeOf(h)
 	if t.Kind() != reflect.Func {
 		panic("reflect error: handler must be func")

@@ -9,7 +9,7 @@ import (
 
 // MergeStringMap merge two map
 // Deprecated: this function will be moved to internal package, user should not use it anymore.
-func MergeStringMap(dest, src map[string]interface{}) {
+func MergeStringMap(dest, src map[string]any) {
 	for sk, sv := range src {
 		tv, ok := dest[sk]
 		if !ok {
@@ -26,14 +26,14 @@ func MergeStringMap(dest, src map[string]interface{}) {
 		}
 
 		switch ttv := tv.(type) {
-		case map[interface{}]interface{}:
-			tsv := sv.(map[interface{}]interface{})
+		case map[any]any:
+			tsv := sv.(map[any]any)
 			ssv := ToMapStringInterface(tsv)
 			stv := ToMapStringInterface(ttv)
 			MergeStringMap(stv, ssv)
 			dest[sk] = stv
-		case map[string]interface{}:
-			MergeStringMap(ttv, sv.(map[string]interface{}))
+		case map[string]any:
+			MergeStringMap(ttv, sv.(map[string]any))
 			dest[sk] = ttv
 		default:
 			dest[sk] = sv
@@ -41,10 +41,10 @@ func MergeStringMap(dest, src map[string]interface{}) {
 	}
 }
 
-// ToMapStringInterface cast map[interface{}]interface{} to map[string]interface{}
+// ToMapStringInterface cast map[any]any to map[string]any
 // Deprecated: this function will be moved to internal package, user should not use it anymore.
-func ToMapStringInterface(src map[interface{}]interface{}) map[string]interface{} {
-	tgt := map[string]interface{}{}
+func ToMapStringInterface(src map[any]any) map[string]any {
+	tgt := map[string]any{}
 	for k, v := range src {
 		tgt[fmt.Sprintf("%v", k)] = v
 	}
@@ -53,15 +53,15 @@ func ToMapStringInterface(src map[interface{}]interface{}) map[string]interface{
 
 // DeepSearchInMap deep search in map
 // Deprecated: this function will be moved to internal package, user should not use it anymore.
-func DeepSearchInMap(m map[string]interface{}, paths ...string) map[string]interface{} {
-	mtmp := make(map[string]interface{})
+func DeepSearchInMap(m map[string]any, paths ...string) map[string]any {
+	mtmp := make(map[string]any)
 	for k, v := range m {
 		mtmp[k] = v
 	}
 	for _, k := range paths {
 		m2, ok := mtmp[k]
 		if !ok {
-			m3 := make(map[string]interface{})
+			m3 := make(map[string]any)
 			mtmp[k] = m3
 			mtmp = m3
 			continue
@@ -69,7 +69,7 @@ func DeepSearchInMap(m map[string]interface{}, paths ...string) map[string]inter
 
 		m3, err := cast.ToStringMapE(m2)
 		if err != nil {
-			m3 = make(map[string]interface{})
+			m3 = make(map[string]any)
 			mtmp[k] = m3
 		}
 		// continue search

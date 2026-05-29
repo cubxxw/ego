@@ -8,7 +8,7 @@ import (
 // Deprecated: this function will be moved to internal package, user should not use it anymore.
 var MergeStringMap = util.MergeStringMap
 
-// ToMapStringInterface cast map[interface{}]interface{} to map[string]interface{}
+// ToMapStringInterface cast map[any]any to map[string]any
 // Deprecated: this function will be moved to internal package, user should not use it anymore.
 var ToMapStringInterface = util.ToMapStringInterface
 

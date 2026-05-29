@@ -33,8 +33,8 @@ type Config struct {
 	serverOptions                 []grpc.ServerOption
 	streamInterceptors            []grpc.StreamServerInterceptor
 	unaryInterceptors             []grpc.UnaryServerInterceptor
-	unaryServerResourceExtract    func(context.Context, interface{}, *grpc.UnaryServerInfo) string // sentinel 的限流策略
-	unaryServerBlockFallback      func(context.Context, interface{}, *grpc.UnaryServerInfo, *base.BlockError) (interface{}, error)
+	unaryServerResourceExtract    func(context.Context, any, *grpc.UnaryServerInfo) string // sentinel 的限流策略
+	unaryServerBlockFallback      func(context.Context, any, *grpc.UnaryServerInfo, *base.BlockError) (any, error)
 }
 
 // DefaultConfig represents default config

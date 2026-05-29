@@ -11,7 +11,7 @@ import (
 
 // MakeReqResInfo ...
 // Deprecated: MakeReqResInfo will be removed in v1.2
-func MakeReqResInfo(compName string, addr string, cost time.Duration, req interface{}, reply interface{}) string {
+func MakeReqResInfo(compName string, addr string, cost time.Duration, req any, reply any) string {
 	return fmt.Sprintf("%s %s %s %s => %s\n", xcolor.Green(compName), xcolor.Green(addr), xcolor.Yellow(fmt.Sprintf("[%vms]", float64(cost.Microseconds())/1000)), xcolor.Blue(fmt.Sprintf("%v", req)), xcolor.Blue(fmt.Sprintf("%v", reply)))
 }
 
@@ -23,7 +23,7 @@ func MakeReqResError(compName string, addr string, cost time.Duration, req strin
 
 // MakeReqResInfoV2 以info级别打印行号、配置名、目标地址、耗时、请求数据、响应数据
 // Deprecated: MakeReqResInfoV2 will be removed in v1.2
-func MakeReqResInfoV2(callerSkip int, compName string, addr string, cost time.Duration, req interface{}, reply interface{}) string {
+func MakeReqResInfoV2(callerSkip int, compName string, addr string, cost time.Duration, req any, reply any) string {
 	_, file, line, _ := runtime.Caller(callerSkip)
 	return fmt.Sprintf("%s %s %s %s %s => %s \n", xcolor.Green(file+":"+strconv.Itoa(line)), xcolor.Green(compName), xcolor.Green(addr), xcolor.Yellow(fmt.Sprintf("[%vms]", float64(cost.Microseconds())/1000)), xcolor.Blue(fmt.Sprintf("%v", req)), xcolor.Blue(fmt.Sprintf("%v", reply)))
 }
@@ -41,6 +41,6 @@ func MakeReqAndResError(line string, compName string, addr string, cost time.Dur
 }
 
 // MakeReqAndResInfo 以info级别打印行号、配置名、目标地址、耗时、请求数据、响应数据
-func MakeReqAndResInfo(line string, compName string, addr string, cost time.Duration, req interface{}, reply interface{}) string {
+func MakeReqAndResInfo(line string, compName string, addr string, cost time.Duration, req any, reply any) string {
 	return fmt.Sprintf("%s %s %s %s %s => %s", xcolor.Green(line), xcolor.Green(compName), xcolor.Green(addr), xcolor.Yellow(fmt.Sprintf("[%vms]", float64(cost.Microseconds())/1000)), xcolor.Blue(fmt.Sprintf("%v", req)), xcolor.Blue(fmt.Sprintf("%v", reply)))
 }
