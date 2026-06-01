@@ -1,0 +1,372 @@
+# Instincts generated from https://github.com/cubxxw/ego
+# Generated: 2026-06-01T11:40:39.804Z
+# Version: 2.0
+# NOTE: This file supplements (does not replace) any existing curated instincts.
+# High-confidence manually curated instincts should be preserved alongside these.
+
+---
+id: ego-commit-length
+trigger: "when writing a commit message"
+confidence: 0.6
+domain: git
+source: repo-analysis
+source_repo: https://github.com/cubxxw/ego
+---
+
+# Ego Commit Length
+
+## Action
+
+Write moderate-length commit messages (~60 characters)
+
+## Evidence
+
+- Average commit message length: 60 chars
+- Based on 2 commits
+
+---
+id: ego-naming-files
+trigger: "when creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/cubxxw/ego
+---
+
+# Ego Naming Files
+
+## Action
+
+Use snake_case naming convention
+
+## Evidence
+
+- Analyzed file naming patterns in repository
+- Dominant pattern: snake_case
+
+---
+id: ego-import-relative
+trigger: "when importing modules"
+confidence: 0.75
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/cubxxw/ego
+---
+
+# Ego Import Relative
+
+## Action
+
+Use relative imports for project files
+
+## Evidence
+
+- Import analysis shows relative import pattern
+- Example: import { x } from '../lib/x'
+
+---
+id: ego-export-style
+trigger: "when exporting from a module"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/cubxxw/ego
+---
+
+# Ego Export Style
+
+## Action
+
+Prefer named exports
+
+## Evidence
+
+- Export pattern analysis
+- Dominant style: named
+
+---
+id: ego-test-separate
+trigger: "when writing tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/cubxxw/ego
+---
+
+# Ego Test Separate
+
+## Action
+
+Place tests in the tests/ or __tests__/ directory, mirroring src structure
+
+## Evidence
+
+- Separate test directory pattern detected
+- Tests live in dedicated test folders
+
+---
+id: ego-workflow-bulk-refactor-across-codebase
+trigger: "when doing bulk refactor across codebase"
+confidence: 0.55
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/cubxxw/ego
+---
+
+# Ego Workflow Bulk Refactor Across Codebase
+
+## Action
+
+Follow the bulk-refactor-across-codebase workflow:
+1. Identify the deprecated or changed construct (e.g., interface{}).
+2. Search and replace all occurrences across the codebase.
+3. Update related test files to match the new usage.
+4. Commit changes to all affected files.
+5. Open a pull request and merge after review.
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~1x per month
+- Files: client/egrpc/interceptor.go, client/egrpc/interceptor_test.go, client/egrpc/resolver/stat.go
+
+---
+id: ego-instinct-file-naming
+trigger: "When creating or renaming a file"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: cubxxw/ego
+---
+
+# Ego Instinct File Naming
+
+## Action
+
+Use snake_case for file names
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.files
+- All files in listed folders use snake_case
+
+---
+id: ego-instinct-function-naming
+trigger: "When defining a new function"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: cubxxw/ego
+---
+
+# Ego Instinct Function Naming
+
+## Action
+
+Use camelCase for function names
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.functions
+- Functions in core/elog/component.go and others use camelCase
+
+---
+id: ego-instinct-class-naming
+trigger: "When defining a new struct or class"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: cubxxw/ego
+---
+
+# Ego Instinct Class Naming
+
+## Action
+
+Use PascalCase for struct/class names
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.classes
+- Structs in core/econf/api.go use PascalCase
+
+---
+id: ego-instinct-constant-naming
+trigger: "When declaring a constant"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: cubxxw/ego
+---
+
+# Ego Instinct Constant Naming
+
+## Action
+
+Use SCREAMING_SNAKE_CASE for constant names
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.constants
+- Constants in core/econf/conf.go use SCREAMING_SNAKE_CASE
+
+---
+id: ego-instinct-import-style
+trigger: "When importing a package"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: cubxxw/ego
+---
+
+# Ego Instinct Import Style
+
+## Action
+
+Use relative import paths
+
+## Evidence
+
+- Pattern in codeStyle.importStyle
+- Imports in core/elog/component.go are relative
+
+---
+id: ego-instinct-export-style
+trigger: "When exporting functions or types"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: cubxxw/ego
+---
+
+# Ego Instinct Export Style
+
+## Action
+
+Use named exports
+
+## Evidence
+
+- Pattern in codeStyle.exportStyle
+- Exported functions/types in core/econf/api.go are named
+
+---
+id: ego-instinct-test-location
+trigger: "When adding new tests"
+confidence: 0.9
+domain: testing
+source: repo-analysis
+source_repo: cubxxw/ego
+---
+
+# Ego Instinct Test Location
+
+## Action
+
+Place test files in separate *_test.go files alongside implementation files
+
+## Evidence
+
+- Pattern in architecture.folderStructure.testLocation
+- Files like core/econf/conf_test.go, internal/tools/tools_test.go
+
+---
+id: ego-instinct-test-naming
+trigger: "When naming test files"
+confidence: 0.9
+domain: testing
+source: repo-analysis
+source_repo: cubxxw/ego
+---
+
+# Ego Instinct Test Naming
+
+## Action
+
+Use the *_test.go suffix for test files
+
+## Evidence
+
+- Pattern in filesInvolved in workflows
+- Files like client/egrpc/interceptor_test.go
+
+---
+id: ego-instinct-test-update-on-refactor
+trigger: "When performing a bulk refactor that changes APIs or types"
+confidence: 0.85
+domain: testing
+source: repo-analysis
+source_repo: cubxxw/ego
+---
+
+# Ego Instinct Test Update On Refactor
+
+## Action
+
+Update related test files to match the new usage
+
+## Evidence
+
+- Step in bulk-refactor-across-codebase workflow
+- core/econf/conf_test.go updated alongside core/econf/conf.go
+
+---
+id: ego-instinct-commit-prefix-refactor
+trigger: "When committing a refactor change"
+confidence: 0.9
+domain: git
+source: repo-analysis
+source_repo: cubxxw/ego
+---
+
+# Ego Instinct Commit Prefix Refactor
+
+## Action
+
+Prefix commit message with 'refactor:'
+
+## Evidence
+
+- Pattern in commits.prefixes
+- Commit: refactor: replace interface{} with any (Go 1.18+)
+
+---
+id: ego-instinct-commit-merge-format
+trigger: "When merging a pull request"
+confidence: 0.8
+domain: git
+source: repo-analysis
+source_repo: cubxxw/ego
+---
+
+# Ego Instinct Commit Merge Format
+
+## Action
+
+Use the format 'Merge pull request #[number] from [branch]' in the commit message
+
+## Evidence
+
+- Pattern in commits.examples
+- Commit: Merge pull request #432 from MD-Mushfiqur123/refactor/interface-to-any
+
+---
+id: ego-instinct-bulk-refactor
+trigger: "When the codebase needs to be updated to use a new language feature or to comply with updated best practices"
+confidence: 0.95
+domain: workflow
+source: repo-analysis
+source_repo: cubxxw/ego
+---
+
+# Ego Instinct Bulk Refactor
+
+## Action
+
+Perform a sweeping refactor: identify the construct, search and replace, update tests, commit, and open a pull request
+
+## Evidence
+
+- bulk-refactor-across-codebase workflow
+- Commits and files listed in workflow example
+
