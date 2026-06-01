@@ -45,25 +45,25 @@ func init() {
 }
 
 // JSON ...
-func JSON(obj interface{}) string {
+func JSON(obj any) string {
 	aa, _ := _jsonAPI.Marshal(obj)
 	return string(aa)
 }
 
 // JSONBytes ...
-func JSONBytes(obj interface{}) []byte {
+func JSONBytes(obj any) []byte {
 	aa, _ := _jsonAPI.Marshal(obj)
 	return aa
 }
 
 // PrettyJSON ...
-func PrettyJSON(obj interface{}) string {
+func PrettyJSON(obj any) string {
 	aa, _ := _jsonPrettyAPI.MarshalIndent(obj, "", "    ")
 	return string(aa)
 }
 
 // PrettyJSONBytes ...
-func PrettyJSONBytes(obj interface{}) []byte {
+func PrettyJSONBytes(obj any) []byte {
 	aa, _ := _jsonPrettyAPI.MarshalIndent(obj, "", "    ")
 	return aa
 }

@@ -9,9 +9,9 @@ import (
 
 func TestMergeStringMap(t *testing.T) {
 	type args struct {
-		dest map[string]interface{}
-		src  map[string]interface{}
-		tar  map[string]interface{}
+		dest map[string]any
+		src  map[string]any
+		tar  map[string]any
 	}
 	tests := []struct {
 		name string
@@ -20,48 +20,48 @@ func TestMergeStringMap(t *testing.T) {
 		{
 			name: "二维测试",
 			args: args{
-				dest: map[string]interface{}{
-					"2w": map[string]interface{}{
+				dest: map[string]any{
+					"2w": map[string]any{
 						"test":  "2wtd",
 						"test1": "2wtd1",
 					},
-					"2wa": map[string]interface{}{
+					"2wa": map[string]any{
 						"test":  "2wtd",
 						"test1": "2wtd1",
 					},
-					"2wi": map[interface{}]interface{}{
+					"2wi": map[any]any{
 						"test":  "2wtd",
 						"test1": "2wtd1",
 					},
 				},
-				src: map[string]interface{}{
-					"2w": map[string]interface{}{
+				src: map[string]any{
+					"2w": map[string]any{
 						"test":  "2wtds",
 						"test1": "2wtd1s",
 					},
-					"2wb": map[string]interface{}{
+					"2wb": map[string]any{
 						"test":  "2wtds",
 						"test1": "2wtd1s",
 					},
-					"2wi": map[interface{}]interface{}{
+					"2wi": map[any]any{
 						"test":  "2wtds",
 						"test1": "2wtd1s",
 					},
 				},
-				tar: map[string]interface{}{
-					"2w": map[string]interface{}{
+				tar: map[string]any{
+					"2w": map[string]any{
 						"test":  "2wtds",
 						"test1": "2wtd1s",
 					},
-					"2wb": map[string]interface{}{
+					"2wb": map[string]any{
 						"test":  "2wtds",
 						"test1": "2wtd1s",
 					},
-					"2wa": map[string]interface{}{
+					"2wa": map[string]any{
 						"test":  "2wtd",
 						"test1": "2wtd1",
 					},
-					"2wi": map[string]interface{}{
+					"2wi": map[string]any{
 						"test":  "2wtds",
 						"test1": "2wtd1s",
 					},
@@ -71,15 +71,15 @@ func TestMergeStringMap(t *testing.T) {
 		{
 			name: "一维测试",
 			args: args{
-				dest: map[string]interface{}{
+				dest: map[string]any{
 					"1w":  "tt",
 					"1wa": "mq",
 				},
-				src: map[string]interface{}{
+				src: map[string]any{
 					"1w":  "tts",
 					"1wb": "bq",
 				},
-				tar: map[string]interface{}{
+				tar: map[string]any{
 					"1w":  "tts",
 					"1wa": "mq",
 					"1wb": "bq",
@@ -100,18 +100,18 @@ func TestMergeStringMap(t *testing.T) {
 
 func TestDeepSearchInMap(t *testing.T) {
 	type args struct {
-		m     map[string]interface{}
+		m     map[string]any
 		paths []string
 	}
 	tests := []struct {
 		name string
 		args args
-		want map[string]interface{}
+		want map[string]any
 	}{
 		{
 			name: "test",
-			args: args{map[string]interface{}{"key1": map[string]interface{}{"subkey1": "subval1"}}, []string{"key1"}},
-			want: map[string]interface{}{"subkey1": "subval1"},
+			args: args{map[string]any{"key1": map[string]any{"subkey1": "subval1"}}, []string{"key1"}},
+			want: map[string]any{"subkey1": "subval1"},
 		},
 	}
 	for _, tt := range tests {
@@ -125,17 +125,17 @@ func TestDeepSearchInMap(t *testing.T) {
 
 func TestToMapStringInterface(t *testing.T) {
 	type args struct {
-		src map[interface{}]interface{}
+		src map[any]any
 	}
 	tests := []struct {
 		name string
 		args args
-		want map[string]interface{}
+		want map[string]any
 	}{
 		{
 			name: "test",
-			args: args{map[interface{}]interface{}{1: 1}},
-			want: map[string]interface{}{"1": 1},
+			args: args{map[any]any{1: 1}},
+			want: map[string]any{"1": 1},
 		},
 	}
 	for _, tt := range tests {
@@ -149,13 +149,13 @@ func TestToMapStringInterface(t *testing.T) {
 
 func TestDeepSearchInMap1(t *testing.T) {
 	type args struct {
-		m     map[string]interface{}
+		m     map[string]any
 		paths []string
 	}
 	tests := []struct {
 		name string
 		args args
-		want map[string]interface{}
+		want map[string]any
 	}{
 		// TODO: Add test cases.
 	}
@@ -170,8 +170,8 @@ func TestDeepSearchInMap1(t *testing.T) {
 
 func TestMergeStringMap1(t *testing.T) {
 	type args struct {
-		dest map[string]interface{}
-		src  map[string]interface{}
+		dest map[string]any
+		src  map[string]any
 	}
 	tests := []struct {
 		name string
@@ -188,12 +188,12 @@ func TestMergeStringMap1(t *testing.T) {
 
 func TestToMapStringInterface1(t *testing.T) {
 	type args struct {
-		src map[interface{}]interface{}
+		src map[any]any
 	}
 	tests := []struct {
 		name string
 		args args
-		want map[string]interface{}
+		want map[string]any
 	}{
 		// TODO: Add test cases.
 	}

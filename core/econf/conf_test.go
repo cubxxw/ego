@@ -20,7 +20,7 @@ func TestSetKeyDelim(t *testing.T) {
 func TestSub(t *testing.T) {
 	c := &Configuration{
 		keyDelim: defaultKeyDelim,
-		override: map[string]interface{}{
+		override: map[string]any{
 			"key1": "hello",
 			"key2": "world",
 		},
@@ -30,7 +30,7 @@ func TestSub(t *testing.T) {
 		out := c.Sub("")
 		in := &Configuration{
 			keyDelim: defaultKeyDelim,
-			override: map[string]interface{}{},
+			override: map[string]any{},
 			keyMap:   &sync.Map{},
 		}
 		assert.Equal(t, in, out)

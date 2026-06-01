@@ -9,11 +9,11 @@ type wrappedLogger struct {
 }
 
 // Info logs routine messages about cron's operation.
-func (wl *wrappedLogger) Info(msg string, keysAndValues ...interface{}) {
+func (wl *wrappedLogger) Info(msg string, keysAndValues ...any) {
 	wl.Component.ZapSugaredLogger().Infow("cron "+msg, keysAndValues...)
 }
 
 // Error logs an error condition.
-func (wl *wrappedLogger) Error(err error, msg string, keysAndValues ...interface{}) {
+func (wl *wrappedLogger) Error(err error, msg string, keysAndValues ...any) {
 	wl.Component.ZapSugaredLogger().Errorw("cron "+msg, append(keysAndValues, "err", err)...)
 }

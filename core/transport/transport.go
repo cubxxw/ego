@@ -38,7 +38,7 @@ func CustomContextKeysLength() int {
 }
 
 // WithValue returns a new context with your key and value
-func WithValue(ctx context.Context, key string, value interface{}) context.Context {
+func WithValue(ctx context.Context, key string, value any) context.Context {
 	info := ctx.Value(key)
 	if info != nil {
 		return ctx
@@ -49,6 +49,6 @@ func WithValue(ctx context.Context, key string, value interface{}) context.Conte
 // Value returns value of your key
 // Deprecated
 // Use ctx.Value()
-func Value(ctx context.Context, key string) interface{} {
+func Value(ctx context.Context, key string) any {
 	return ctx.Value(key)
 }

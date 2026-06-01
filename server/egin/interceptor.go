@@ -170,12 +170,12 @@ func (c *Container) defaultServerInterceptor() gin.HandlerFunc {
 
 				if c.config.EnableAccessInterceptorReq && out {
 					if len(rb.String()) > c.config.AccessInterceptorReqMaxLength {
-						fields = append(fields, elog.Any("req", map[string]interface{}{
+						fields = append(fields, elog.Any("req", map[string]any{
 							"metadata": copyHeaders(ctx.Request.Header),
 							"payload":  rb.String()[:c.config.AccessInterceptorReqMaxLength] + "...",
 						}))
 					} else {
-						fields = append(fields, elog.Any("req", map[string]interface{}{
+						fields = append(fields, elog.Any("req", map[string]any{
 							"metadata": copyHeaders(ctx.Request.Header),
 							"payload":  rb.String(),
 						}))
@@ -183,12 +183,12 @@ func (c *Container) defaultServerInterceptor() gin.HandlerFunc {
 				}
 				if c.config.EnableAccessInterceptorRes && out {
 					if len(rw.body.String()) > c.config.AccessInterceptorResMaxLength {
-						fields = append(fields, elog.Any("res", map[string]interface{}{
+						fields = append(fields, elog.Any("res", map[string]any{
 							"metadata": copyHeaders(ctx.Request.Header),
 							"payload":  rw.body.String()[:c.config.AccessInterceptorResMaxLength] + "...",
 						}))
 					} else {
-						fields = append(fields, elog.Any("res", map[string]interface{}{
+						fields = append(fields, elog.Any("res", map[string]any{
 							"metadata": copyHeaders(ctx.Writer.Header()),
 							"payload":  rw.body.String(),
 						}))
@@ -482,7 +482,7 @@ func (c *Container) checkFilter(req *http.Request, rw *resWriter) bool {
 	if c.config.aiReqResCelPrg == nil {
 		return true
 	}
-	out, _, err := c.config.aiReqResCelPrg.Eval(map[string]interface{}{
+	out, _, err := c.config.aiReqResCelPrg.Eval(map[string]any{
 		"request":  convert2googleRequest(req),
 		"response": convert2googleResponse(rw),
 	})

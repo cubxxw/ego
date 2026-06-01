@@ -27,7 +27,7 @@ type DataSource interface {
 }
 
 // Unmarshaller ...
-type Unmarshaller = func([]byte, interface{}) error
+type Unmarshaller = func([]byte, any) error
 
 var defaultConfiguration = New()
 
@@ -54,7 +54,7 @@ func LoadFromReader(r io.Reader, unmarshaller Unmarshaller) error {
 }
 
 // Apply ...
-func Apply(conf map[string]interface{}) error {
+func Apply(conf map[string]any) error {
 	return defaultConfiguration.apply(conf)
 }
 
@@ -64,7 +64,7 @@ func Reset() {
 }
 
 // Traverse ...
-func Traverse(sep string) map[string]interface{} {
+func Traverse(sep string) map[string]any {
 	return defaultConfiguration.traverse(sep)
 }
 
@@ -79,11 +79,11 @@ func Debug(sep string) {
 }
 
 // Get returns an interface. For a specific value use one of the Get____ methods.
-func Get(key string) interface{} {
+func Get(key string) any {
 	return defaultConfiguration.Get(key)
 }
 
 // Set sets config value for key
-func Set(key string, val interface{}) {
+func Set(key string, val any) {
 	_ = defaultConfiguration.Set(key, val)
 }

@@ -6,13 +6,13 @@ import (
 )
 
 // FunctionName returns the Function's name of given pointer.
-func FunctionName(i interface{}) string {
+func FunctionName(i any) string {
 	return runtime.FuncForPC(reflect.ValueOf(i).Pointer()).Name()
 }
 
 // ObjectName returns the object's path and name of given pointer.
 // Deprecated: this function will be moved to internal package, user should not use it anymore.
-func ObjectName(i interface{}) string {
+func ObjectName(i any) string {
 	typ := reflect.TypeOf(i)
 	if typ.Kind() == reflect.Ptr {
 		typ = typ.Elem()

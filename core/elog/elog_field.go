@@ -86,7 +86,7 @@ func FieldValue(value string) Field {
 }
 
 // FieldValueAny ...
-func FieldValueAny(value interface{}) Field {
+func FieldValueAny(value any) Field {
 	return Any("value", value)
 }
 
@@ -101,7 +101,7 @@ func FieldErr(err error) Field {
 }
 
 // FieldErrAny ...
-func FieldErrAny(err interface{}) Field {
+func FieldErrAny(err any) Field {
 	return zap.Any("error", err)
 }
 
@@ -111,7 +111,7 @@ func FieldDescription(value string) Field {
 }
 
 // FieldExtMessage ...
-func FieldExtMessage(vals ...interface{}) Field {
+func FieldExtMessage(vals ...any) Field {
 	return zap.Any("ext", vals)
 }
 

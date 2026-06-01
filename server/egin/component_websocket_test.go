@@ -15,16 +15,16 @@ import (
 
 // simpleBufferPool is an implementation of BufferPool for TestWriteBufferPool.
 type simpleBufferPool struct {
-	v interface{}
+	v any
 }
 
-func (p *simpleBufferPool) Get() interface{} {
+func (p *simpleBufferPool) Get() any {
 	v := p.v
 	p.v = nil
 	return v
 }
 
-func (p *simpleBufferPool) Put(v interface{}) {
+func (p *simpleBufferPool) Put(v any) {
 	p.v = v
 }
 

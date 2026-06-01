@@ -44,7 +44,7 @@ func TestPanicInHandler(t *testing.T) {
 	assert.NoError(t, err)
 	// 虽然程序里返回200，只要panic就会为500
 	assert.Equal(t, http.StatusInternalServerError, w.Code)
-	var m map[string]interface{}
+	var m map[string]any
 	n := strings.Index(string(logged), "{")
 	err1 := json.Unmarshal(logged[n:], &m)
 	assert.NoError(t, err1)
@@ -68,7 +68,7 @@ func TestPanicInCustomHandler(t *testing.T) {
 	)
 
 	// 自定义 recover
-	var recoverFunc gin.RecoveryFunc = func(ctx *gin.Context, err interface{}) {
+	var recoverFunc gin.RecoveryFunc = func(ctx *gin.Context, err any) {
 		ctx.String(http.StatusInternalServerError, "%v", err)
 		ctx.Abort()
 	}
@@ -89,7 +89,7 @@ func TestPanicInCustomHandler(t *testing.T) {
 	// TEST
 	assert.Equal(t, http.StatusInternalServerError, w.Code)
 	assert.Equal(t, panicMessage, w.Body.String())
-	var m map[string]interface{}
+	var m map[string]any
 	n := strings.Index(string(logged), "{")
 	err1 := json.Unmarshal(logged[n:], &m)
 	assert.NoError(t, err1)

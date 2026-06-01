@@ -4,7 +4,7 @@ import "testing"
 
 func TestFunctionName(t *testing.T) {
 	type args struct {
-		i interface{}
+		i any
 	}
 	tests := []struct {
 		name string
@@ -29,7 +29,7 @@ func TestFunctionName(t *testing.T) {
 
 func TestObjectName(t *testing.T) {
 	type args struct {
-		i interface{}
+		i any
 	}
 	tests := []struct {
 		name string

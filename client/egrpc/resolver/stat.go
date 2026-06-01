@@ -21,7 +21,7 @@ func init() {
 // stats
 func stats() (stats map[string][]resolver.Address) {
 	stats = make(map[string][]resolver.Address)
-	instances.Range(func(key, val interface{}) bool {
+	instances.Range(func(key, val any) bool {
 		name := key.(string)
 		addresses := val.([]resolver.Address)
 		stats[name] = addresses

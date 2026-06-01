@@ -30,7 +30,7 @@ func Test_customHeader(t *testing.T) {
 
 	cc := new(grpc.ClientConn)
 	err := interceptor(ctx, "/foo", nil, nil, cc,
-		func(ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, opts ...grpc.CallOption) error {
+		func(ctx context.Context, method string, req, reply any, cc *grpc.ClientConn, opts ...grpc.CallOption) error {
 			info := tools.GrpcHeaderValue(ctx, "X-Ego-Uid")
 			assert.Equal(t, "9527", info)
 			return nil
@@ -44,7 +44,7 @@ func TestMetric(t *testing.T) {
 	interceptor := cmp.metricUnaryClientInterceptor()
 	cc := new(grpc.ClientConn)
 	err := interceptor(context.Background(), "/foo", nil, nil, cc,
-		func(ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, opts ...grpc.CallOption) error {
+		func(ctx context.Context, method string, req, reply any, cc *grpc.ClientConn, opts ...grpc.CallOption) error {
 			return nil
 		})
 	assert.Nil(t, err)

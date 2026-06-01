@@ -17,7 +17,7 @@ import (
 
 //  export EGO_DEBUG=true && go run main.go --config=config.toml
 func main() {
-	serverOptions := []grpc.ServerOption{grpc.ChainUnaryInterceptor(func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
+	serverOptions := []grpc.ServerOption{grpc.ChainUnaryInterceptor(func(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp any, err error) {
 		resp, err = handler(ctx, req)
 		fmt.Printf("resp--------------->"+"%+v\n", resp)
 		fmt.Printf("err--------------->"+"%+v\n", err)

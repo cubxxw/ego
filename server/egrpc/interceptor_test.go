@@ -242,7 +242,7 @@ func (g PanicGreeter) SayHello(context context.Context, request *helloworld.Hell
 
 func TestCtxStoreSet(t *testing.T) {
 	ctx := context.Background()
-	Ctx := context.WithValue(ctx, ctxStoreStruct{}, &ctxStore{kvs: make(map[string]interface{})})
+	Ctx := context.WithValue(ctx, ctxStoreStruct{}, &ctxStore{kvs: make(map[string]any)})
 	CtxStore := Ctx.Value(ctxStoreStruct{}).(*ctxStore)
 	assert.NotNil(t, CtxStore)
 	CtxStoreSet(Ctx, "hello", "world")
